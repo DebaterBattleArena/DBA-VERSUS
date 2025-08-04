@@ -3,49 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ONE Championship</title>
+    <title>ONE Championship - The Home of Martial Arts</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header class="main-header">
-        <div class="header-content">
-            <div class="logo" id="logo">ONE</div>
-            <div class="header-right">
-                <div class="search-container">
-                    <input type="text" id="search-input" placeholder="Search">
-                    <button id="search-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#fff"/></svg></button>
-                </div>
-                <button class="menu-toggle" id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" fill="#fff"/></svg></button>
+        <div class="header-container">
+            <div class="logo-area">
+                <a href="#" id="logo-link" class="logo-link"><span class="logo-one">ONE</span></a>
             </div>
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="#" data-page="homepage" class="nav-link active">HOMEPAGE</a></li>
+                    <li><a href="#" data-page="events" class="nav-link">EVENTS</a></li>
+                    <li><a href="#" data-page="tickets" class="nav-link">TICKETS</a></li>
+                    <li><a href="#" data-page="athletes" class="nav-link">ATHLETES</a></li>
+                    <li><a href="#" data-page="read" class="nav-link">READ</a></li>
+                    <li><a href="#" data-page="watch" class="nav-link">WATCH</a></li>
+                    <li><a href="#" data-page="shop" class="nav-link external">SHOP</a></li>
+                </ul>
+            </nav>
+            <div class="header-tools">
+                <button class="search-toggle" id="search-toggle"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="#fff" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button>
+                <button class="menu-toggle" id="menu-toggle"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="#fff" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></button>
+            </div>
+        </div>
+        <div class="search-bar" id="search-bar">
+            <input type="text" id="search-input" placeholder="Search ONEFC.com">
         </div>
     </header>
 
-    <div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu" id="mobile-menu">
         <button class="close-menu" id="close-menu">&times;</button>
-        <nav>
+        <nav class="mobile-nav">
             <ul>
-                <li><a href="#" class="nav-link" data-page="homepage">HOMEPAGE</a></li>
-                <li><a href="#" class="nav-link" data-page="events">EVENTS</a></li>
-                <li><a href="#" class="nav-link" data-page="tickets">TICKETS</a></li>
-                <li><a href="#" class="nav-link" data-page="athletes">ATHLETES</a></li>
-                <li><a href="#" class="nav-link" data-page="read">READ</a></li>
-                <li><a href="#" class="nav-link" data-page="watch">WATCH</a></li>
-                <li><a href="#" class="nav-link" data-page="shop">SHOP</a></li>
-                <li><a href="#" class="nav-link" data-page="comics">COMICS</a></li>
-                <li><a href="#" class="nav-link" data-page="about">ABOUT US</a></li>
+                <li><a href="#" data-page="homepage" class="mobile-nav-link">HOMEPAGE</a></li>
+                <li><a href="#" data-page="events" class="mobile-nav-link">EVENTS</a></li>
+                <li><a href="#" data-page="tickets" class="mobile-nav-link">TICKETS</a></li>
+                <li><a href="#" data-page="athletes" class="mobile-nav-link">ATHLETES</a></li>
+                <li><a href="#" data-page="read" class="mobile-nav-link">READ</a></li>
+                <li><a href="#" data-page="watch" class="mobile-nav-link">WATCH</a></li>
+                <li><a href="#" data-page="shop" class="mobile-nav-link external">SHOP</a></li>
             </ul>
         </nav>
-        <div class="social-icons">
-            </div>
+        <div class="mobile-socials">
+            <a href="#"><img src="https://via.placeholder.com/24/fff" alt="Facebook"></a>
+            <a href="#"><img src="https://via.placeholder.com/24/fff" alt="Twitter/X"></a>
+            <a href="#"><img src="https://via.placeholder.com/24/fff" alt="Instagram"></a>
+            <a href="#"><img src="https://via.placeholder.com/24/fff" alt="Youtube"></a>
+        </div>
     </div>
 
-    <main class="content" id="main-content">
+    <main class="main-content" id="main-content">
         </main>
-    
-    <div class="ad-banner">
+
+    <footer class="main-footer">
+        </footer>
+
+    <div class="ad-banner" id="ad-banner">
         <span class="ad-text">ONE 173 Tickets Now Available To The General Public</span>
         <button class="buy-tickets-btn">BUY TICKETS</button>
+        <button class="close-ad" id="close-ad">&times;</button>
     </div>
 
     <script src="script.js"></script>
