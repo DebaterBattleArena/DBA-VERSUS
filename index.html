@@ -10,17 +10,13 @@
 
     <header class="main-header">
         <div class="header-content">
-            <div class="logo">ONE</div>
+            <div class="logo" id="logo">ONE</div>
             <div class="header-right">
                 <div class="search-container">
                     <input type="text" id="search-input" placeholder="Search">
-                    <button id="search-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#fff"/></svg>
-                    </button>
+                    <button id="search-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#fff"/></svg></button>
                 </div>
-                <button class="menu-toggle" id="menu-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" fill="#fff"/></svg>
-                </button>
+                <button class="menu-toggle" id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" fill="#fff"/></svg></button>
             </div>
         </div>
     </header>
@@ -29,34 +25,24 @@
         <button class="close-menu" id="close-menu">&times;</button>
         <nav>
             <ul>
-                <li><a href="#">HOMEPAGE</a></li>
-                <li><a href="#">EVENTS</a></li>
-                <li><a href="#">TICKETS</a></li>
-                <li><a href="#">ATHLETES</a></li>
-                <li><a href="#">READ</a></li>
-                <li><a href="#">WATCH</a></li>
-                <li><a href="#">SHOP</a></li>
-                <li><a href="#">COMICS</a></li>
-                <li><a href="#">ABOUT US</a></li>
+                <li><a href="#" class="nav-link" data-page="homepage">HOMEPAGE</a></li>
+                <li><a href="#" class="nav-link" data-page="events">EVENTS</a></li>
+                <li><a href="#" class="nav-link" data-page="tickets">TICKETS</a></li>
+                <li><a href="#" class="nav-link" data-page="athletes">ATHLETES</a></li>
+                <li><a href="#" class="nav-link" data-page="read">READ</a></li>
+                <li><a href="#" class="nav-link" data-page="watch">WATCH</a></li>
+                <li><a href="#" class="nav-link" data-page="shop">SHOP</a></li>
+                <li><a href="#" class="nav-link" data-page="comics">COMICS</a></li>
+                <li><a href="#" class="nav-link" data-page="about">ABOUT US</a></li>
             </ul>
         </nav>
         <div class="social-icons">
-            <a href="#"><img src="https://via.placeholder.com/24/fff" alt="Facebook"></a>
-            <a href="#"><img src="https://via.placeholder.com/24/fff" alt="Twitter/X"></a>
-            <a href="#"><img src="https://via.placeholder.com/24/fff" alt="Instagram"></a>
-            <a href="#"><img src="https://via.placeholder.com/24/fff" alt="Youtube"></a>
-            <a href="#"><img src="https://via.placeholder.com/24/fff" alt="Weibo"></a>
-        </div>
+            </div>
     </div>
 
-    <main class="content">
-        <section class="upcoming-events-section">
-            <h2>UPCOMING EVENTS</h2>
-            <div class="event-card-list" id="event-card-list">
-                </div>
-        </section>
-    </main>
-
+    <main class="content" id="main-content">
+        </main>
+    
     <div class="ad-banner">
         <span class="ad-text">ONE 173 Tickets Now Available To The General Public</span>
         <button class="buy-tickets-btn">BUY TICKETS</button>
