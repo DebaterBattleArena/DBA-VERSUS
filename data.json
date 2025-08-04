@@ -1,0 +1,84 @@
+{
+  "fighters": [
+    {
+      "id": "adrian-mattheis",
+      "name": "Adrian \"Papua Badboy\" Mattheis",
+      "country": "Indonesia",
+      "team": "Tigershark Fighting Academy",
+      "height": "5'4\" FT / 163 CM",
+      "weight_limit": "125 LBS / 56.7 KG",
+      "age": "32 Y",
+      "image_url": "https://images.onefc.com/one-championship/athletes/AdrianMattheis-2-1200x800.jpg",
+      "records": [
+        {
+          "result": "LOSS",
+          "opponent": "Lito Adiwang",
+          "event": "ONE Friday Fights 34",
+          "date": "Sep 22, 2023",
+          "method": "MMA TKO",
+          "round": "R1"
+        },
+        {
+          "result": "WIN",
+          "opponent": "Zelang Zhaxi",
+          "event": "ONE Fight Night 7",
+          "date": "Feb 25, 2023",
+          "method": "MMA TKO",
+          "round": "R1"
+        },
+        {
+          "result": "LOSS",
+          "opponent": "Alex Silva",
+          "event": "ONE 158: Tawanchai vs. Larsen",
+          "date": "Jun 3, 2022",
+          "method": "MMA SUB",
+          "round": "R1"
+        },
+        {
+          "result": "WIN",
+          "opponent": "Alex Silva",
+          "event": "Lights Out",
+          "date": "Mar 11, 2022",
+          "method": "MMA TKO",
+          "round": "R2"
+        },
+        {
+          "result": "LOSS",
+          "opponent": "Stefer Rahardian",
+          "event": "Dawn Of Valor",
+          "date": "Oct 25, 2019",
+          "method": "MMA UD",
+          "round": "R3"
+        }
+      ]
+    },
+    {
+      "id": "lito-adiwang",
+      "name": "Lito \"Thunder Kid\" Adiwang",
+      "country": "Philippines",
+      "team": "Team Lakay",
+      "height": "5'4\" FT / 163 CM",
+      "weight_limit": "125 LBS / 56.7 KG",
+      "age": "31 Y",
+      "image_url": "https://images.onefc.com/one-championship/athletes/LitoAdiwang-1200x800.jpg",
+      "records": [
+        {
+          "result": "WIN",
+          "opponent": "Adrian Mattheis",
+          "event": "ONE Friday Fights 34",
+          "date": "Sep 22, 2023",
+          "method": "MMA TKO",
+          "round": "R1"
+        },
+        {
+          "result": "LOSS",
+          "opponent": "Jeremy Miado",
+          "event": "ONE X",
+          "date": "Mar 26, 2022",
+          "method": "MMA TKO",
+          "round": "R2"
+        }
+      ]
+    }
+  ]
+}
