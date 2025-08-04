@@ -1,257 +1,190 @@
+/* Font dan Warna Dasar */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 :root {
-    --primary-color: #000;
-    --secondary-color: #ffcc00;
-    --text-color: #fff;
-    --bg-dark: #121212;
-    --bg-light: #1e1e1e;
-    --font-family: 'Roboto', sans-serif;
+    --primary-bg-color: #1c1c1c;
+    --secondary-bg-color: #2a2a2a;
+    --text-color: #ffffff;
+    --accent-color: #f1c40f; /* Warna emas */
+    --light-text-color: #aaaaaa;
 }
 
 body {
-    margin: 0;
-    font-family: var(--font-family);
-    background-color: var(--bg-dark);
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--primary-bg-color);
     color: var(--text-color);
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
 
 /* Header */
 .main-header {
-    background-color: var(--primary-color);
-    border-bottom: 1px solid #333;
-    padding: 10px 0;
+    background-color: #000;
+    padding: 10px 20px;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-.main-header .container {
+.header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.logo img {
-    height: 40px;
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent-color);
 }
 
-.search-menu-wrapper {
-    display: flex;
-    gap: 10px;
-}
-
-.search-box {
-    position: absolute;
-    top: 50%;
-    right: 50px;
-    transform: translateY(-50%);
+.header-right {
     display: flex;
     align-items: center;
-    background-color: #333;
-    border-radius: 20px;
+    gap: 15px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: var(--secondary-bg-color);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#search-input {
+    border: none;
+    background: none;
+    color: var(--text-color);
     padding: 5px 10px;
-    width: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: width 0.3s, opacity 0.3s, right 0.3s;
-}
-
-.search-box.active {
     width: 200px;
-    opacity: 1;
-    visibility: visible;
-    right: 50px;
 }
 
-.search-box input {
-    border: none;
-    background: none;
-    color: var(--text-color);
+#search-input:focus {
     outline: none;
-    width: 100%;
 }
 
-.search-btn {
+#search-button {
     background: none;
     border: none;
-    color: var(--text-color);
-    font-size: 20px;
     cursor: pointer;
+    padding: 5px;
 }
 
-.menu-btn {
+#search-button svg {
+    fill: var(--text-color);
+}
+
+.menu-toggle {
     background: none;
     border: none;
-    color: var(--text-color);
-    font-size: 24px;
     cursor: pointer;
+    padding: 5px;
 }
 
-/* Sidebar Menu */
-.sidebar-menu {
+.menu-toggle svg {
+    fill: var(--text-color);
+}
+
+/* Menu Mobile */
+.mobile-menu {
     position: fixed;
-    right: -280px;
     top: 0;
+    right: -300px; /* Sembunyikan menu di luar layar */
     width: 280px;
     height: 100%;
-    background-color: var(--primary-color);
-    padding-top: 60px;
+    background-color: var(--secondary-bg-color);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
     transition: right 0.3s ease-in-out;
-    z-index: 999;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+    z-index: 2000;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.sidebar-menu.active {
+.mobile-menu.open {
     right: 0;
 }
 
-.sidebar-menu ul {
+.close-menu {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 30px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.mobile-menu nav ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin-top: 50px;
 }
 
-.sidebar-menu ul li a {
+.mobile-menu nav li a {
     display: block;
-    padding: 15px;
-    color: var(--text-color);
+    padding: 15px 0;
+    color: var(--light-text-color);
     text-decoration: none;
-    font-size: 18px;
+    font-weight: 700;
     border-bottom: 1px solid #333;
-    transition: background-color 0.2s;
+    transition: color 0.2s ease;
 }
 
-.sidebar-menu ul li a:hover {
-    background-color: #333;
-}
-
-.sidebar-menu .has-submenu {
-    position: relative;
-}
-
-.sidebar-menu .has-submenu .submenu {
-    list-style: none;
-    padding-left: 20px;
-    display: none;
-    background-color: #1e1e1e;
-}
-
-.sidebar-menu .has-submenu a i {
-    float: right;
-    transition: transform 0.2s;
-}
-
-.sidebar-menu .has-submenu.open .submenu {
-    display: block;
-}
-
-.sidebar-menu .has-submenu.open a i {
-    transform: rotate(180deg);
+.mobile-menu nav li a:hover {
+    color: var(--accent-color);
 }
 
 .social-icons {
-    padding: 20px;
-    text-align: center;
-    border-top: 1px solid #333;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
 }
 
-.social-icons a {
-    color: var(--text-color);
-    font-size: 24px;
-    margin: 0 10px;
+.social-icons img {
+    width: 24px;
+    height: 24px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
 }
 
-/* Main Content */
-.main-content {
-    padding-top: 20px;
-}
-
-/* Hero Section / Slider */
-.hero-section {
-    position: relative;
-    height: 400px;
-    overflow: hidden;
-    margin-bottom: 30px;
-}
-
-.hero-slider-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    display: none;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.hero-slider-item.active {
-    display: block;
+.social-icons img:hover {
     opacity: 1;
 }
 
-.hero-slider-item .hero-text {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
+/* Konten Utama */
+.content {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
 }
 
-.hero-slider-item .hero-text h2 {
-    font-size: 28px;
-    margin: 0;
+.upcoming-events-section {
+    padding: 20px 0;
 }
 
-.hero-slider-item .hero-text a {
-    color: var(--secondary-color);
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    margin-top: 10px;
-}
-
-/* Events Section */
-.events-section {
-    margin-bottom: 40px;
-}
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+h2 {
+    font-size: 24px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
     margin-bottom: 20px;
 }
 
-.section-header h2 {
-    font-size: 24px;
-    border-left: 4px solid var(--secondary-color);
-    padding-left: 10px;
-}
-
-.section-header a {
-    color: var(--secondary-color);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.event-list {
+.event-card-list {
     display: flex;
+    flex-direction: column;
     gap: 20px;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    -webkit-overflow-scrolling: touch;
 }
 
 .event-card {
-    min-width: 300px;
-    background-color: var(--bg-light);
-    border-radius: 8px;
+    background-color: var(--secondary-bg-color);
+    border-radius: 10px;
     overflow: hidden;
 }
 
@@ -261,147 +194,66 @@ body {
     display: block;
 }
 
-.event-info {
+.event-details {
     padding: 15px;
 }
 
-.event-info h3 {
-    margin-top: 0;
-    color: var(--secondary-color);
+.event-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
 }
 
-.event-info p {
+.event-date-location {
+    font-size: 14px;
+    color: var(--light-text-color);
     margin: 5px 0;
 }
 
-.event-info button {
-    background-color: var(--secondary-color);
+.buy-tickets-btn {
+    background-color: var(--accent-color);
+    color: #000;
     border: none;
     padding: 10px 20px;
+    font-weight: 700;
+    border-radius: 5px;
     cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
-    width: 100%;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease;
 }
 
-/* Profile Page */
-.fighter-profile {
+.buy-tickets-btn:hover {
+    background-color: #e0b400;
+}
+
+/* Iklan Bawah */
+.ad-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--accent-color);
+    color: #000;
+    padding: 10px 20px;
     display: flex;
-    flex-direction: column;
-    gap: 30px;
-    padding: 20px 0;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1500;
+    box-sizing: border-box;
 }
 
-.profile-header {
-    background-color: var(--bg-light);
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
+.ad-text {
+    font-weight: 700;
 }
 
-.profile-header img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 15px;
+.ad-banner .buy-tickets-btn {
+    background-color: #000;
+    color: var(--accent-color);
+    padding: 8px 15px;
 }
 
-.profile-header h1 {
-    margin: 0;
-    font-size: 32px;
+.ad-banner .buy-tickets-btn:hover {
+    background-color: #333;
 }
 
-.profile-header p {
-    margin: 5px 0;
-    color: #aaa;
-}
-
-.profile-details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    background-color: var(--bg-light);
-    padding: 20px;
-    border-radius: 8px;
-}
-
-.profile-details div {
-    border-bottom: 1px solid #333;
-    padding-bottom: 10px;
-}
-
-.profile-details div:nth-child(2n) {
-    border-left: 1px solid #333;
-    padding-left: 20px;
-}
-
-.profile-details span {
-    display: block;
-    font-weight: bold;
-}
-
-.profile-details p {
-    margin: 0;
-}
-
-.fighter-records {
-    background-color: var(--bg-light);
-    padding: 20px;
-    border-radius: 8px;
-}
-
-.fighter-records h3 {
-    margin-top: 0;
-    border-left: 4px solid var(--secondary-color);
-    padding-left: 10px;
-}
-
-.record-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.record-table th, .record-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #333;
-}
-
-.record-table th {
-    color: var(--secondary-color);
-    text-transform: uppercase;
-}
-
-.record-table tr:last-child td {
-    border-bottom: none;
-}
-
-.record-win {
-    color: #4CAF50;
-    font-weight: bold;
-}
-
-.record-loss {
-    color: #F44336;
-    font-weight: bold;
-}
-
-/* Responsif untuk mobile */
-@media (max-width: 768px) {
-    .search-box {
-        right: 45px;
-    }
-
-    .search-box.active {
-        width: 180px;
-        right: 45px;
-    }
-
-    .main-header .container .search-box {
-        display: none;
-    }
-    .main-header .container .search-btn {
-        display: block;
-    }
-}
