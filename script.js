@@ -1,21 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Elemen DOM yang Sering Digunakan ---
+    // --- DOM Elements Cache ---
     const mainContent = document.getElementById('main-content');
-    const searchInput = document.getElementById('search-input');
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
     const menuToggle = document.getElementById('menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
     const closeMenu = document.getElementById('close-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const logo = document.getElementById('logo');
+    const searchToggle = document.getElementById('search-toggle');
+    const searchBar = document.getElementById('search-bar');
+    const searchInput = document.getElementById('search-input');
+    const logoLink = document.getElementById('logo-link');
+    const adBanner = document.getElementById('ad-banner');
+    const closeAdBtn = document.getElementById('close-ad');
 
-    // --- Data yang Disimulasikan (seperti dari database) ---
-    const allData = {
+    // --- State Management ---
+    const appState = {
+        currentPage: 'homepage',
+        currentFilter: ''
+    };
+
+    // --- Simulated Data (mimicking a database/API response) ---
+    const dataStore = {
         events: [
-            { id: 1, type: "upcoming", title: "ONE Friday Fights 119", date: "AUG 8 (FRI) 7:30PM WIB", location: "Lumpinee Stadium, Bangkok", image: "https://via.placeholder.com/600x400/34495e/ffffff?text=ONE+Friday+Fights+119" },
-            { id: 2, type: "upcoming", title: "ONE Fight Night 37", date: "NOV 8 (SAT) 9:00AM WIB", location: "Lumpinee Stadium, Bangkok", image: "https://via.placeholder.com/600x400/3498db/ffffff?text=ONE+Fight+Night+37" },
-            { id: 3, type: "upcoming", title: "ONE 173: Superbon Vs. Noiri", date: "NOV 16 (SUN) 3:00PM WIB", location: "Ariake Arena, Tokyo", image: "https://via.placeholder.com/600x400/9b59b6/ffffff?text=ONE+173" },
-            { id: 4, type: "upcoming", title: "ONE Friday Fights 120", date: "AUG 15 (FRI) 7:30PM WIB", location: "Lumpinee Stadium, Bangkok", image: "https://via.placeholder.com/600x400/f39c12/ffffff?text=ONE+Friday+Fights+120" },
+            { id: 1, title: "ONE Friday Fights 119", date: "AUG 8 (FRI) 7:30PM WIB", location: "Lumpinee Stadium, Bangkok", image: "https://via.placeholder.com/600x400/34495e/ffffff?text=ONE+Friday+Fights+119" },
+            { id: 2, title: "ONE Fight Night 37", date: "NOV 8 (SAT) 9:00AM WIB", location: "Lumpinee Stadium, Bangkok", image: "https://via.placeholder.com/600x400/3498db/ffffff?text=ONE+Fight+Night+37" },
+            { id: 3, title: "ONE 173: Superbon Vs. Noiri", date: "NOV 16 (SUN) 3:00PM WIB", location: "Ariake Arena, Tokyo", image: "https://via.placeholder.com/600x400/9b59b6/ffffff?text=ONE+173" },
+            { id: 4, title: "ONE Friday Fights 120", date: "AUG 15 (FRI) 7:30PM WIB", location: "Lumpinee Stadium, Bangkok", image: "https://via.placeholder.com/600x400/f39c12/ffffff?text=ONE+Friday+Fights+120" },
         ],
         athletes: [
             { id: 101, name: "Adrian Mattheis", nickname: "Papua Badboy", country: "Indonesia", age: 32, team: "Tigershark Fighting Academy", weight: "125 LBS / 56.7 KG", height: "5'4\" FT / 163 CM", image: "https://via.placeholder.com/200/2c3e50/ffffff?text=Adrian+Mattheis", records: [
@@ -28,209 +38,239 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
-    // --- Fungsi untuk Merender Konten Halaman ---
-    function renderPage(pageName, data = null) {
-        mainContent.innerHTML = ''; // Kosongkan konten utama
+    // --- HTML Template Functions ---
+    const templates = {
+        homepage: () => `
+            <section class="container">
+                <h2 class="section-title">Upcoming Events</h2>
+                <div class="event-card-list" id="event-list-container"></div>
+            </section>
+        `,
+        events: () => `
+            <section class="container">
+                <h2 class="section-title">All Events</h2>
+                <div class="event-card-list" id="event-list-container"></div>
+            </section>
+        `,
+        athletes: () => `
+            <section class="container">
+                <h2 class="section-title">Athletes</h2>
+                <div class="athletes-list" id="athletes-list-container"></div>
+            </section>
+        `,
+        athleteProfile: (athlete) => `
+            <div class="athlete-profile-header">
+                <div class="container">
+                    <img src="${athlete.image}" alt="${athlete.name}" class="profile-image">
+                    <h1 class="profile-name">${athlete.name}</h1>
+                    <p class="profile-nickname">${athlete.nickname}</p>
+                    <div class="profile-details">
+                        <div class="detail-card">
+                            <div class="detail-label">Weight Limit</div>
+                            <div class="detail-value">${athlete.weight}</div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-label">Height</div>
+                            <div class="detail-value">${athlete.height}</div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-label">Country</div>
+                            <div class="detail-value">${athlete.country}</div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-label">Age</div>
+                            <div class="detail-value">${athlete.age}</div>
+                        </div>
+                        <div class="detail-card full-width">
+                            <div class="detail-label">Team</div>
+                            <div class="detail-value">${athlete.team}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="container results-section">
+                <h3 class="section-title">Event Results</h3>
+                <div id="event-results-container"></div>
+            </section>
+        `,
+        // ... Tambahkan template untuk halaman lain di sini
+        defaultPage: (pageName) => `<h2 class="section-title text-center">Halaman '${pageName}' sedang dalam pengembangan.</h2>`
+    };
+
+    // --- Rendering Functions ---
+    const render = {
+        events: (events, containerId = 'event-list-container') => {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            if (events.length === 0) {
+                container.innerHTML = '<p class="text-center">Tidak ada acara yang ditemukan.</p>';
+                return;
+            }
+            events.forEach(event => {
+                const card = document.createElement('div');
+                card.className = 'event-card';
+                card.innerHTML = `
+                    <img src="${event.image}" alt="${event.title}" class="event-card-image">
+                    <div class="event-card-details">
+                        <h3 class="event-card-title">${event.title}</h3>
+                        <p class="event-card-info">${event.date}</p>
+                        <p class="event-card-info">${event.location}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        },
+        athletes: (athletes, containerId = 'athletes-list-container') => {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            if (athletes.length === 0) {
+                container.innerHTML = '<p class="text-center">Tidak ada atlet yang ditemukan.</p>';
+                return;
+            }
+            athletes.forEach(athlete => {
+                const card = document.createElement('div');
+                card.className = 'athlete-card';
+                card.innerHTML = `
+                    <a href="#" class="athlete-card-link" data-id="${athlete.id}">
+                        <img src="${athlete.image}" alt="${athlete.name}">
+                        <div class="athlete-card-info">
+                            <h4 class="athlete-card-name">${athlete.name}</h4>
+                            <p class="athlete-card-country">${athlete.country}</p>
+                        </div>
+                    </a>
+                `;
+                container.appendChild(card);
+            });
+            // Add click listener for newly rendered athlete cards
+            container.querySelectorAll('.athlete-card-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const athleteId = parseInt(e.currentTarget.dataset.id);
+                    const athlete = dataStore.athletes.find(a => a.id === athleteId);
+                    if (athlete) {
+                        navigateTo('athleteProfile', { athlete: athlete });
+                    }
+                });
+            });
+        },
+        athleteRecords: (records, containerId = 'event-results-container') => {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            if (!records || records.length === 0) {
+                container.innerHTML = '<p class="text-center">Tidak ada catatan pertandingan.</p>';
+                return;
+            }
+            records.forEach(record => {
+                const resultClass = record.result.toLowerCase() === 'win' ? 'result-win' : 'result-loss';
+                const resultItem = document.createElement('div');
+                resultItem.className = `event-result ${resultClass}`;
+                resultItem.innerHTML = `
+                    <div class="result-info">
+                        <div class="result-status">${record.result}</div>
+                        <div>${record.method}</div>
+                    </div>
+                    <div class="opponent-details">
+                        <h3 class="opponent-name">${record.opponent}</h3>
+                        <p class="event-name">${record.event}</p>
+                        <p class="event-date">${record.date}</p>
+                    </div>
+                `;
+                container.appendChild(resultItem);
+            });
+        }
+    };
+
+    // --- Main Navigation Logic ---
+    function navigateTo(page, data = {}) {
         let pageHTML = '';
 
-        switch (pageName) {
-            case 'homepage':
-                pageHTML = `
-                    <section class="upcoming-events-section">
-                        <h2>UPCOMING EVENTS</h2>
-                        <div class="event-card-list" id="event-card-list"></div>
-                    </section>
-                `;
-                mainContent.innerHTML = pageHTML;
-                renderEvents(allData.events); // Tampilkan semua acara
-                break;
-            case 'events':
-                pageHTML = `
-                    <section class="events-page">
-                        <h2>ALL EVENTS</h2>
-                        <div class="event-card-list" id="event-card-list"></div>
-                    </section>
-                `;
-                mainContent.innerHTML = pageHTML;
-                renderEvents(allData.events); // Tampilkan semua acara lagi, bisa ditambahkan filter lain di sini
-                break;
-            case 'athletes':
-                pageHTML = `
-                    <section class="athletes-page">
-                        <h2>ATHLETES</h2>
-                        <div class="athletes-list" id="athletes-list"></div>
-                    </section>
-                `;
-                mainContent.innerHTML = pageHTML;
-                renderAthletes(allData.athletes); // Tampilkan daftar atlet
-                break;
-            case 'athleteProfile':
-                const athlete = allData.athletes.find(a => a.id === data.athleteId);
-                if (athlete) {
-                    pageHTML = `
-                        <div class="athlete-header">
-                            <img src="${athlete.image}" alt="${athlete.name}" class="athlete-image">
-                            <h1 class="athlete-name">${athlete.name}</h1>
-                            <p class="athlete-nickname">"${athlete.nickname}"</p>
-                        </div>
-                        <div class="container">
-                            <div class="athlete-details">
-                                <div class="detail-item"><div class="detail-label">WEIGHT LIMIT</div><div class="detail-value">${athlete.weight}</div></div>
-                                <div class="detail-item"><div class="detail-label">HEIGHT</div><div class="detail-value">${athlete.height}</div></div>
-                                <div class="detail-item"><div class="detail-label">COUNTRY</div><div class="detail-value">${athlete.country}</div></div>
-                                <div class="detail-item"><div class="detail-label">AGE</div><div class="detail-value">${athlete.age}</div></div>
-                                <div class="detail-item"><div class="detail-label">TEAM</div><div class="detail-value">${athlete.team}</div></div>
-                            </div>
-                            <h3>EVENT RESULTS</h3>
-                            <div class="event-results-list" id="event-results-list"></div>
-                        </div>
-                    `;
-                    mainContent.innerHTML = pageHTML;
-                    renderAthleteRecords(athlete.records);
-                } else {
-                    mainContent.innerHTML = `<p class="text-center">Atlet tidak ditemukan.</p>`;
-                }
-                break;
-            default:
-                mainContent.innerHTML = `<h2 class="text-center">Halaman ${pageName} sedang dalam pengembangan.</h2>`;
+        if (page === 'athleteProfile' && data.athlete) {
+            pageHTML = templates.athleteProfile(data.athlete);
+        } else if (templates[page]) {
+            pageHTML = templates[page]();
+        } else {
+            pageHTML = templates.defaultPage(page);
         }
-    }
 
-    // Fungsi untuk merender daftar acara
-    function renderEvents(events) {
-        const eventListContainer = document.getElementById('event-card-list');
-        if (!eventListContainer) return;
+        mainContent.innerHTML = pageHTML;
+        appState.currentPage = page;
         
-        eventListContainer.innerHTML = '';
-        if (events.length === 0) {
-            eventListContainer.innerHTML = '<p class="text-center">Tidak ada acara yang cocok.</p>';
-            return;
+        // Render specific content after the page template is in the DOM
+        if (page === 'homepage' || page === 'events') {
+            render.events(dataStore.events);
+        } else if (page === 'athletes') {
+            render.athletes(dataStore.athletes);
+        } else if (page === 'athleteProfile' && data.athlete) {
+            render.athleteRecords(data.athlete.records);
         }
 
-        events.forEach(event => {
-            const card = document.createElement('div');
-            card.classList.add('event-card');
-            card.innerHTML = `
-                <img src="${event.image}" alt="${event.title}">
-                <div class="event-details">
-                    <h3 class="event-title">${event.title}</h3>
-                    <p class="event-date-location">${event.date}<br>${event.location}</p>
-                    <a href="#" class="buy-tickets-btn">BUY TICKETS</a>
-                </div>
-            `;
-            eventListContainer.appendChild(card);
-        });
+        // Update active class on nav links
+        navLinks.forEach(link => link.classList.remove('active'));
+        const activeLink = document.querySelector(`.nav-link[data-page="${page}"]`) || document.querySelector(`.mobile-nav-link[data-page="${page}"]`);
+        if (activeLink) activeLink.classList.add('active');
+
+        // Scroll to the top of the page
+        window.scrollTo(0, 0);
     }
 
-    // Fungsi untuk merender daftar atlet
-    function renderAthletes(athletes) {
-        const athletesList = document.getElementById('athletes-list');
-        if (!athletesList) return;
-        
-        athletesList.innerHTML = '';
-        if (athletes.length === 0) {
-            athletesList.innerHTML = '<p class="text-center">Tidak ada atlet yang cocok.</p>';
-            return;
+    // --- Event Listeners ---
+    // Mobile Menu
+    menuToggle.addEventListener('click', () => mobileMenu.classList.add('open'));
+    closeMenu.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    document.addEventListener('click', (event) => {
+        if (!mobileMenu.contains(event.target) && !menuToggle.contains(event.target) && mobileMenu.classList.contains('open')) {
+            mobileMenu.classList.remove('open');
         }
+    });
 
-        athletes.forEach(athlete => {
-            const card = document.createElement('div');
-            card.classList.add('athlete-card');
-            card.innerHTML = `
-                <a href="#" class="athlete-link" data-id="${athlete.id}">
-                    <img src="${athlete.image}" alt="${athlete.name}">
-                    <h4>${athlete.name}</h4>
-                    <p>${athlete.country}</p>
-                </a>
-            `;
-            athletesList.appendChild(card);
-        });
-        // Tambahkan event listener ke setiap link atlet yang baru dibuat
-        document.querySelectorAll('.athlete-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const athleteId = parseInt(e.currentTarget.dataset.id);
-                renderPage('athleteProfile', { athleteId: athleteId });
-            });
-        });
-    }
+    // Search Bar
+    searchToggle.addEventListener('click', () => searchBar.classList.toggle('visible'));
+    searchInput.addEventListener('keyup', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        appState.currentFilter = searchTerm;
 
-    // Fungsi untuk merender hasil pertandingan atlet
-    function renderAthleteRecords(records) {
-        const resultsList = document.getElementById('event-results-list');
-        if (!resultsList) return;
-
-        resultsList.innerHTML = '';
-        if (!records || records.length === 0) {
-            resultsList.innerHTML = '<p class="text-center">Tidak ada hasil pertandingan.</p>';
-            return;
+        let filteredData;
+        if (appState.currentPage === 'homepage' || appState.currentPage === 'events') {
+            filteredData = dataStore.events.filter(item => 
+                item.title.toLowerCase().includes(searchTerm) || item.location.toLowerCase().includes(searchTerm)
+            );
+            render.events(filteredData);
+        } else if (appState.currentPage === 'athletes') {
+            filteredData = dataStore.athletes.filter(item =>
+                item.name.toLowerCase().includes(searchTerm) || item.nickname.toLowerCase().includes(searchTerm) || item.country.toLowerCase().includes(searchTerm)
+            );
+            render.athletes(filteredData);
         }
+    });
 
-        records.forEach(record => {
-            const resultItem = document.createElement('div');
-            resultItem.classList.add('event-result', record.result.toLowerCase() === 'win' ? 'result-win' : 'result-loss');
-            resultItem.innerHTML = `
-                <div class="result-info">
-                    <div class="status">${record.result}</div>
-                    <div>${record.method}</div>
-                </div>
-                <div class="opponent-details">
-                    <h3 class="opponent-name">${record.opponent}</h3>
-                    <p class="event-name">${record.event}</p>
-                    <p class="event-date">${record.date}</p>
-                </div>
-            `;
-            resultsList.appendChild(resultItem);
-        });
-    }
-
-    // --- Pendaftaran Event Listeners ---
-    // Menu Navigasi
-    if (menuToggle && mobileMenu && closeMenu) {
-        menuToggle.addEventListener('click', () => mobileMenu.classList.add('open'));
-        closeMenu.addEventListener('click', () => mobileMenu.classList.remove('open'));
-        document.addEventListener('click', (event) => {
-            if (!mobileMenu.contains(event.target) && !menuToggle.contains(event.target) && mobileMenu.classList.contains('open')) {
-                mobileMenu.classList.remove('open');
-            }
-        });
-    }
-
-    // Navigasi Antar Halaman
+    // Page Navigation
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const pageName = e.currentTarget.dataset.page;
-            renderPage(pageName);
-            mobileMenu.classList.remove('open'); // Tutup menu setelah navigasi
+            navigateTo(pageName);
+            mobileMenu.classList.remove('open');
+            searchBar.classList.remove('visible'); // Hide search bar on navigation
         });
     });
 
-    // Logo kembali ke halaman utama
-    logo.addEventListener('click', () => renderPage('homepage'));
+    logoLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigateTo('homepage');
+    });
 
-    // Pencarian
-    if (searchInput) {
-        searchInput.addEventListener('keyup', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const currentPage = mainContent.dataset.currentPage; // Perlu menambahkan data-currentPage ke mainContent
-            let filteredResults;
+    // Ad Banner
+    setTimeout(() => {
+        adBanner.classList.add('visible');
+    }, 2000); // Tampilkan banner setelah 2 detik
 
-            // Logika pencarian yang disesuaikan untuk setiap halaman
-            if (currentPage === 'homepage' || currentPage === 'events') {
-                filteredResults = allData.events.filter(event => 
-                    event.title.toLowerCase().includes(searchTerm) || event.location.toLowerCase().includes(searchTerm)
-                );
-                renderEvents(filteredResults);
-            } else if (currentPage === 'athletes') {
-                filteredResults = allData.athletes.filter(athlete =>
-                    athlete.name.toLowerCase().includes(searchTerm) || athlete.nickname.toLowerCase().includes(searchTerm) || athlete.country.toLowerCase().includes(searchTerm)
-                );
-                renderAthletes(filteredResults);
-            }
-        });
-    }
+    closeAdBtn.addEventListener('click', () => {
+        adBanner.style.display = 'none'; // Sembunyikan banner sepenuhnya
+    });
 
-    // --- Inisialisasi: Tampilkan halaman beranda saat pertama kali dimuat ---
-    renderPage('homepage');
+    // Initial load: Render the homepage
+    navigateTo('homepage');
 });
